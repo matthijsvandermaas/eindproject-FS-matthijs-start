@@ -65,6 +65,7 @@ user "1" <-D-> "1" admin
 login "*" <-D-> "N" user
 
 securiteit "1" --> "N" brouwer
+securiteit "1" --> "N" drinkergit
 securiteit "1" --> "N" admin
 securiteit "1" -R-> "N" user
 securiteit "1" -U-> "N" login
