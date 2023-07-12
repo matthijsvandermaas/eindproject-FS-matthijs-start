@@ -1,24 +1,43 @@
 @startuml
 class main{
+
+'security
+interface login {
+function login_name
+let name
+function password
+}
+
 abstract class user {
 }
+
 class admin {
 function <login> login
 }
+
 interface securiteit {
 
 }
-
+'users
 class brouwer {
 let name
 let owner
 function <adres> adres
+function <selling_points> selling_points
+function <brands> brands
+}
+
+class drinker {
+let name
+function brand-preferenc <brands>
+function <adres> adres
+function <selling_points> selling_points
+function <brands> brands
 
 }
 
 class selling_points <list> {
 function <adres> adres
-
 }
 
 class brands <array> {
@@ -29,54 +48,44 @@ let flavour
 let color
 let %
 }
-class drinker {
-function <adres> adres
-function brand-preferenc <brands>
-}
-abstract class adres <array> {
+'data
+abstract class adres {
 let street
 let city
+let state
 let country
-let postcode
-let district
+let (district)
 
 }
 
-interface login {
-function login_name
-function password
-}
+'links
+user "1" <-D-> "1" brouwer
+user "1" <-D-> "1" drinker
+user "1" <-D-> "1" admin
+login "*" <-D-> "N" user
 
-
-
-user "1" <-D- "1" brouwer
-user "1" <-D- "1" drinker
-user "1" <-D- "1" admin
-login "*" <-D-> "n" user
-
-securiteit "1" <--> "1" brouwer
-securiteit "1" <--> "1" drinker
-securiteit "1" <--> "1" admin
-securiteit "*" <-R-> "n" user
-securiteit "*" <-U-> "n" login
-securiteit "*" <--> "n" selling_points
+securiteit "1" --> "N" brouwer
+securiteit "1" --> "N" admin
+securiteit "1" -R-> "N" user
+securiteit "1" -U-> "N" login
+securiteit "1" --> "N" selling_points
 
 selling_points "1" <-u-> "N" brouwer
-selling_points "1" <-u-> "N" drinker
+selling_points "1" -u-> "N" drinker
 selling_points "1" <-u-> "N" admin
-selling_points "1" <-u-> "N" brands
+selling_points "1" -u-> "N" brands
 
-
-brands "N" <-U-> "0..1" brouwer
+brands "N" -U-> "0..1" brouwer
 brands "N" -U-> "0..1" drinker
 brands "N" <-U-> "0..1" admin
 
-admin "1" <-L-> "0..N" drinker
-admin "1" <-R-> "0..N" brouwer
+admin "1" -L-> "0.N" drinker
+admin "1" -R-> "0.N" brouwer
 
-adres "1" <-U-> "1" brouwer
-adres "1" <-U-> "1" drinker
-adres "1" <--> "1" selling_points
+adres "1" -U-> "1" brouwer
+adres "1" -U-> "1" drinker
+adres "1" --> "1" selling_points
+adres "1" <-U- "N" securiteit
 
 
 
