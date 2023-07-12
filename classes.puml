@@ -1,6 +1,7 @@
 @startuml
 class main{
-
+function login
+}
 'security
 interface login {
 function login_name
@@ -59,6 +60,8 @@ let (district)
 }
 
 'links
+main "1" --> "1" login
+
 user "1" <-D-> "1" brouwer
 user "1" <-D-> "1" drinker
 user "1" <-D-> "1" admin
@@ -90,5 +93,5 @@ adres "1" <-U- "N" securiteit
 
 
 
-}
+
 @enduml
