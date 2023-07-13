@@ -103,6 +103,8 @@ selling_points "1" <--> "N" user
 
 
 brands "N" <-U-> "0..1" admin
+brands "N" <-U-> "0..N" drinker
+brands "N" <-U-> "1" brouwer
 
 admin "1" -L-> "0.N" drinker
 admin "1" -R-> "0.N" brouwer
