@@ -9,7 +9,7 @@ let name
 function password
 }
 
-abstract class user {
+abstract class user <map>{
 }
 
 class admin {
@@ -36,22 +36,28 @@ function <selling_points> selling_points
 function <brands> brands
 
 }
-
+abstract class mijn_bieren<map> {
+let brands <brands>
+ let gradatie <gradatie>
+}
+'---
 class selling_points <list> {
 function <adres> adres
 }
 
-class brands <array> {
+class brands <map> {
 const name
 let name-beer
 let type
 let flavour
 let color
 let %
+let tast
 }
 'data
-abstract class adres {
+abstract class adres <map> {
 let street
+let zipcode
 let city
 let state
 let country
@@ -59,25 +65,43 @@ let (district)
 
 }
 
+abstract class download <map> {
+function brands <brands>
+}
+abstract class gradatie {
+??
+}
 'links
 main "1" --> "1" login
 
+download "1..*" -U-> "0..*" user
+
+gradatie "0..*" <-U- "0..*" drinker
+gradatie "0..*" -U-> "0..*" brouwer
+gradatie "0..*" -U-> "0..*" securiteit
+gradatie "0..*" <-U-> "0..*" admin
+gradatie "0..*" -D-> "0..*" download
+gradatie "0..*" <-R-> "0..*" mijn_bieren
+
+mijn_bieren "0..*" <-U- "0..*" brands
+
+
 user "1" <-D-> "1" brouwer
 user "1" <-D-> "1" drinker
-user "1" <-D-> "1" admin
-login "*" <-D-> "N" user
 
-securiteit "1" --> "N" brouwer
-securiteit "1" --> "N" drinkergit
-securiteit "1" --> "N" admin
-securiteit "1" -R-> "N" user
+
+
+drinker "0..1" -L-> "*" mijn_bieren
+
+
+securiteit "1" -D-> "N" user
 securiteit "1" -U-> "N" login
-securiteit "1" --> "N" selling_points
 
-selling_points "1" <-u-> "N" brouwer
-selling_points "1" -u-> "N" drinker
-selling_points "1" <-u-> "N" admin
-selling_points "1" -u-> "N" brands
+
+selling_points "1" <-D-> "N" brouwer
+selling_points "1" -R-> "N" drinker
+selling_points "1" <-D-> "N" admin
+
 
 brands "N" -U-> "0..1" brouwer
 brands "N" -U-> "0..1" drinker
@@ -86,10 +110,9 @@ brands "N" <-U-> "0..1" admin
 admin "1" -L-> "0.N" drinker
 admin "1" -R-> "0.N" brouwer
 
-adres "1" -U-> "1" brouwer
+adres "1" <-U-> "1" brouwer
 adres "1" -U-> "1" drinker
-adres "1" --> "1" selling_points
-adres "1" <-U- "N" securiteit
+adres "1" -U-> "1" selling_points
 
 
 
