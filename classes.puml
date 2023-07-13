@@ -76,9 +76,7 @@ main "1" --> "1" login
 
 download "1..*" -U-> "0..*" user
 
-gradatie "0..*" <-U- "0..*" drinker
-gradatie "0..*" -U-> "0..*" brouwer
-gradatie "0..*" -U-> "0..*" securiteit
+gradatie "0..*" <-D- "0..*" brands
 gradatie "0..*" <-U-> "0..*" admin
 gradatie "0..*" -D-> "0..*" download
 gradatie "0..*" <-R-> "0..*" mijn_bieren
@@ -98,20 +96,19 @@ securiteit "1" -D-> "N" user
 securiteit "1" -U-> "N" login
 
 
-selling_points "1" <-D-> "N" brouwer
-selling_points "1" -R-> "N" drinker
-selling_points "1" <-D-> "N" admin
+selling_points "1" <--> "N" brouwer
+selling_points "1" ---> "N" drinker
+selling_points "1" <--> "N" admin
+selling_points "1" <--> "N" user
 
 
-brands "N" -U-> "0..1" brouwer
-brands "N" -U-> "0..1" drinker
 brands "N" <-U-> "0..1" admin
 
 admin "1" -L-> "0.N" drinker
 admin "1" -R-> "0.N" brouwer
 
-adres "1" <-U-> "1" brouwer
-adres "1" -U-> "1" drinker
+adres "1" <-D-> "1" brouwer
+adres "1" -D-> "1" drinker
 adres "1" -U-> "1" selling_points
 
 
